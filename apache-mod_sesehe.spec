@@ -5,13 +5,13 @@
 
 Summary:	Modify or remove "Server: " HTTP response header
 Name:		apache-%{mod_name}
-Version:	0
-Release:	%mkrel 3
+Version:	0.1.0
+Release:	%mkrel 1
 Group:		System/Servers
 License:	Apache License
 URL:		http://jok.is-a-geek.net/mod_sesehe.php
-Source0:	http://jok.is-a-geek.net/code/mod_sesehe.c.bz2
-Source1:	%{mod_conf}.bz2
+Source0:	http://jok.is-a-geek.net/code/mod_sesehe.c
+Source1:	%{mod_conf}
 Requires(pre): rpm-helper
 Requires(postun): rpm-helper
 Requires(pre):	apache-conf >= 2.2.0
@@ -41,7 +41,8 @@ if it was, to make Apache core let me do what I want with this header.
 
 %setup -q -c -T
 
-bzcat %{SOURCE0} > mod_sesehe.c
+cp %{SOURCE0} mod_sesehe.c
+cp %{SOURCE1} %{mod_conf}
 
 # strip away annoying ^M
 find . -type f|xargs file|grep 'CRLF'|cut -d: -f1|xargs perl -p -i -e 's/\r//'
@@ -58,11 +59,7 @@ install -d %{buildroot}%{_libdir}/apache-extramodules
 install -d %{buildroot}%{_sysconfdir}/httpd/modules.d
 
 install -m0755 .libs/mod_sesehe.so %{buildroot}%{_libdir}/apache-extramodules/
-
-bzcat %{SOURCE1} > %{buildroot}%{_sysconfdir}/httpd/modules.d/%{mod_conf}
-
-install -d %{buildroot}%{_var}/www/html/addon-modules
-ln -s ../../../..%{_docdir}/%{name}-%{version} %{buildroot}%{_var}/www/html/addon-modules/%{name}-%{version}
+install -m0644 %{mod_conf} %{buildroot}%{_sysconfdir}/httpd/modules.d/%{mod_conf}
 
 %post
 if [ -f %{_var}/lock/subsys/httpd ]; then
@@ -83,6 +80,3 @@ fi
 %defattr(-,root,root)
 %attr(0644,root,root) %config(noreplace) %{_sysconfdir}/httpd/modules.d/%{mod_conf}
 %attr(0755,root,root) %{_libdir}/apache-extramodules/mod_sesehe.so
-%{_var}/www/html/addon-modules/*
-
-
