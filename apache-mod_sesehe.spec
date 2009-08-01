@@ -6,7 +6,7 @@
 Summary:	Modify or remove "Server: " HTTP response header
 Name:		apache-%{mod_name}
 Version:	0.1.0
-Release:	%mkrel 6
+Release:	%mkrel 7
 Group:		System/Servers
 License:	Apache License
 URL:		http://jok.is-a-geek.net/mod_sesehe.php
