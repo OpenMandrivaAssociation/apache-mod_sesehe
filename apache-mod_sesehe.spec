@@ -9,7 +9,7 @@ Version:	0.1.0
 Release:	12
 Group:		System/Servers
 License:	Apache License
-URL:		http://jok.is-a-geek.net/mod_sesehe.php
+URL:		https://jok.is-a-geek.net/mod_sesehe.php
 Source0:	http://jok.is-a-geek.net/code/mod_sesehe.c
 Source1:	%{mod_conf}
 Requires(pre): rpm-helper
